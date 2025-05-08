@@ -28,3 +28,6 @@ services:
     image: th2oo/image-frontend:latest
     ports:
       - "3000:3000"
+
+
+# SHOULD BE REMOVED AND REPLACE BY THE LOCAL VERSION
