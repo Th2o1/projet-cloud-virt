@@ -23,4 +23,4 @@ COPY --from=builder /app/dist /app/dist
 EXPOSE 3000
 
 # Start the static server
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD ["serve", "-s", "dist", "-l", "0.0.0.0:3000"]
