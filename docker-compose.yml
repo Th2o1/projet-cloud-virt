@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./api
+    image: th2oo/image-backend:latest
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  worker:
+    build: ./api
+    image: th2oo/image-worker:latest
+    depends_on:
+      - backend
+    command: uv run --no-dev celery --app image_api.worker.app worker
+    env_file:
+      - .env
+
+  frontend:
+    build: ./web
+    image: th2oo/image-frontend:latest
+    ports:
+      - "3000:3000"
