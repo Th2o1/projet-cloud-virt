@@ -42,7 +42,7 @@ jobs:
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
         with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
+          context: ./web
+          file: ./web/Dockerfile
           push: true
           tags: th2oo/image-frontend:latest
