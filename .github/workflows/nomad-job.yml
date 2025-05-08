@@ -1,4 +1,4 @@
-name: Deploy All Nomad Jobs
+name: Deploy Nomad Jobs
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
 
       - name: Convert backend job to JSON
         run: |
-          nomad job run -output jobs/backend.nomad.hcl > backend.json
+          nomad job run -output infra/nomad/backend.job.hcl > backend.json
 
       - name: Deploy backend job
         run: |
@@ -31,7 +31,7 @@ jobs:
 
       - name: Convert worker job to JSON
         run: |
-          nomad job run -output jobs/worker.nomad.hcl > worker.json
+          nomad job run -output infra/nomad/worker.job.hcl > worker.json
 
       - name: Deploy worker job
         run: |
@@ -41,7 +41,7 @@ jobs:
 
       - name: Convert frontend job to JSON
         run: |
-          nomad job run -output jobs/frontend.nomad.hcl > frontend.json
+          nomad job run -output infra/nomad/frontend.job.hcl > frontend.json
 
       - name: Deploy frontend job
         run: |
