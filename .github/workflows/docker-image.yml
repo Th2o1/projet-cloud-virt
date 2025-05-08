@@ -35,6 +35,7 @@ jobs:
         with:
           context: ./api
           file: ./api/Dockerfile.worker
+          
           push: true
           tags: th2oo/image-worker:latest
 
