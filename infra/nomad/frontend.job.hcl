@@ -3,20 +3,23 @@ job "frontend" {
   type = "service"
 
   group "frontend" {
-    count = 1
+    count = 3 
 
     network {
-      port "http" {
-        static = 8081  # Port requis par le proxy
-        to = 3000     # Port du conteneur (serve écoute sur 3000)
-      }
+      mode = "host"
     }
 
     service {
       name = "frontend"
-      port = "http"
-      tags = ["frontend"]
+      port = 8081
+      tags = ["frontend", "urlprefix-/"]
       provider = "consul"
+      check { # Health check
+          type     = "http"
+          path     = "/"  
+          interval = "10s"
+          timeout  = "2s"
+        }
     }
 
     task "frontend" {
@@ -24,7 +27,7 @@ job "frontend" {
 
       config {
         image = "th2oo/image-frontend:latest"
-        ports = ["http"]
+        network_mode = "host"
       }
     }
   }
