@@ -11,7 +11,7 @@ job "frontend" {
 
     service {
       name = "frontend"
-      port = 8081
+      port = 3000
       tags = ["frontend", "urlprefix-/"]
       provider = "consul"
       check { # Health check
