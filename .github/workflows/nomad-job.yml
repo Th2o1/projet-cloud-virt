@@ -48,3 +48,13 @@ jobs:
           curl -X POST https://perle.nomad.100do.se/v1/jobs \
             -H "Content-Type: application/json" \
             --data-binary @frontend.json
+
+      - name: Convert loadbalancer job to JSON
+        run: |
+          nomad job run -output infra/nomad/loadbalancer.job.hcl > loadbalancer.json
+
+      - name: Deploy loadbalancer job
+        run: |
+          curl -X POST https://perle.nomad.100do.se/v1/jobs \
+            -H "Content-Type: application/json" \
+            --data-binary @loadbalancer.json
