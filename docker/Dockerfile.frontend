@@ -20,7 +20,7 @@ RUN npm install -g serve
 COPY --from=builder /app/dist /app/dist
 
 # Expose the port (We use 300 because it's default)
-EXPOSE 8081
+EXPOSE 3000
 
 # Start the static server
-CMD ["serve", "-s", "dist", "-l", "tcp://0.0.0.0:8081"]
+CMD ["serve", "-s", "dist", "-l", "localhost:3000"]
