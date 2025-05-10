@@ -1,19 +1,21 @@
-# Stage 1: Build
+# Stage 1: Build the frontend app with Node.js
 FROM node:20 AS builder
+
 WORKDIR /app
+
 COPY . .
 RUN npm ci && npm run build
 
-# Stage 2: Serve with NGINX
-FROM nginx:alpine
+# Stage 2: Serve the built files
+FROM node:20-alpine
 
-# Remove default NGINX config
-RUN rm /etc/nginx/conf.d/default.conf
+WORKDIR /app
 
-# Copy custom config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN npm install -g serve
 
-# Copy built app
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /app/dist
 
-EXPOSE 8081
+EXPOSE 3000
+
+CMD ["serve", "-s", "dist", "-l", "3000"]
+

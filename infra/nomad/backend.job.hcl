@@ -3,16 +3,16 @@ job "backend" {
   type = "service"
 
   group "backend" {
-    count = 3
+    count = 3  # Run on all three nodes
 
     network {
-      mode = "host"
+      mode = "host"  # Use host networking
     }
 
     service {
       name = "backend"
-      port = 8080
-      tags = ["backend", "urlprefix-/api"]
+      port = 8080  # Specify port directly for host networking
+      tags = ["urlprefix-/api"]
       provider = "consul"
       check {
         type     = "http"
@@ -27,7 +27,7 @@ job "backend" {
 
       config {
         image = "th2oo/image-backend:latest"
-        network_mode = "host"
+        network_mode = "host"  # Optional redundancy
       }
 
       env {
