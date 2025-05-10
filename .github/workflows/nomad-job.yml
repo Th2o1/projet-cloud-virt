@@ -19,42 +19,18 @@ jobs:
           unzip nomad.zip
           sudo mv nomad /usr/local/bin/
 
-      - name: Convert backend job to JSON
-        run: |
-          nomad job run -output infra/nomad/backend.job.hcl > backend.json
-
       - name: Deploy backend job
         run: |
-          curl -X POST https://perle.nomad.100do.se/v1/jobs \
-            -H "Content-Type: application/json" \
-            --data-binary @backend.json
-
-      - name: Convert worker job to JSON
-        run: |
-          nomad job run -output infra/nomad/worker.job.hcl > worker.json
+          nomad job run infra/nomad/backend.job.hcl
 
       - name: Deploy worker job
         run: |
-          curl -X POST https://perle.nomad.100do.se/v1/jobs \
-            -H "Content-Type: application/json" \
-            --data-binary @worker.json
-
-      - name: Convert frontend job to JSON
-        run: |
-          nomad job run -output infra/nomad/frontend.job.hcl > frontend.json
+          nomad job run infra/nomad/worker.job.hcl
 
       - name: Deploy frontend job
         run: |
-          curl -X POST https://perle.nomad.100do.se/v1/jobs \
-            -H "Content-Type: application/json" \
-            --data-binary @frontend.json
-
-      - name: Convert loadbalancer job to JSON
-        run: |
-          nomad job run -output infra/nomad/loadbalancer.job.hcl > loadbalancer.json
+          nomad job run infra/nomad/frontend.job.hcl
 
       - name: Deploy loadbalancer job
         run: |
-          curl -X POST https://perle.nomad.100do.se/v1/jobs \
-            -H "Content-Type: application/json" \
-            --data-binary @loadbalancer.json
+          nomad job run infra/nomad/loadbalancer.job.hcl
